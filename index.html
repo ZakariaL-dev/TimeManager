@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Time Manager</title>
+    <link rel="stylesheet" href="./style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Delius&family=Winky+Rough:ital,wght@0,300..900;1,300..900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
+      integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body>
+    <header>
+      <h1>TimeMaster</h1>
+      <p>Your all-in-one time management solution</p>
+    </header>
+
+    <div class="btns">
+      <button id="btn1" class="active">World Clock</button>
+      <button id="btn2">Stopwatch</button>
+      <button id="btn3">Timer</button>
+    </div>
+
+    <hr />
+
+    <div class="content" style="position: relative; width: 90%; margin: 0 auto">
+      <div
+        id="clock"
+        class="clock"
+        style="
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
+          gap: 20px;
+          margin-bottom: 20px;
+        "
+      >
+        <div class="localtime">
+          <h3 style="font-size: 1.5rem">Local Time</h3>
+          <div class="horloge">
+            <div class="center"></div>
+            <div class="hournum hour-1">1</div>
+            <div class="hournum hour-2">2</div>
+            <div class="hournum hour-3">3</div>
+            <div class="hournum hour-4">4</div>
+            <div class="hournum hour-5">5</div>
+            <div class="hournum hour-6">6</div>
+            <div class="hournum hour-7">7</div>
+            <div class="hournum hour-8">8</div>
+            <div class="hournum hour-9">9</div>
+            <div class="hournum hour-10">10</div>
+            <div class="hournum hour-11">11</div>
+            <div class="hournum hour-12">12</div>
+
+            <div class="minute-hand-wrapper" id="minuteline">
+              <div class="minute-hand">
+                <div class="hand"></div>
+                <div class="arrow">V</div>
+              </div>
+            </div>
+
+            <div class="hour-hand-wrapper" id="hourline">
+              <div class="hour-hand">
+                <div class="hand"></div>
+                <div class="arrow">V</div>
+              </div>
+            </div>
+
+            <div class="second-hand-wrapper" id="secondline">
+              <div class="second-hand">
+                <div class="hand"></div>
+              </div>
+            </div>
+          </div>
+          <h2 id="livehour" style="font-size: 2rem; margin-bottom: -5px">
+            00:00:00
+          </h2>
+          <p id="livedate" style="margin-bottom: 30px">Dimanche 31 Aout 2025</p>
+        </div>
+        <div class="worldclock">
+          <div class="worldhead">
+            <h2 style="color: black">World Clock</h2>
+            <label>
+              <select id="WorldClockSelect">
+                <option>Select Your Zone</option>
+              </select>
+            </label>
+          </div>
+          <div id="WorldClockDisplay" class="worldbody">
+            <h2 style="margin: 0 auto;">Please Selsect Your Zone</h2>
+            <!-- <div
+              class="location"
+              data-zone="America/New_York"
+              data-country="United States"
+              data-city="New York"
+            >
+              <div>
+                <h3>United States</h3>
+                <p>America/New_York</p>
+              </div>
+              <div>
+                <h3 class="time" style="text-align: end"></h3>
+                <p class="date"></p>
+              </div>
+            </div>
+
+            <div
+              class="location"
+              data-zone="America/Los_Angeles"
+              data-country="United States"
+              data-city="Los Angeles"
+            >
+              <div>
+                <h3>United States</h3>
+                <p>America/Los_Angeles</p>
+              </div>
+              <div>
+                <h3 class="time" style="text-align: end"></h3>
+                <p class="date"></p>
+              </div>
+            </div>
+
+            <div
+              class="location"
+              data-zone="Europe/London"
+              data-country="United Kingdom"
+              data-city="London"
+            >
+              <div>
+                <h3>United Kingdom</h3>
+                <p>Europe/London</p>
+              </div>
+              <div>
+                <h3 class="time" style="text-align: end"></h3>
+                <p class="date"></p>
+              </div>
+            </div>
+
+            <div
+              class="location"
+              data-zone="Europe/Paris"
+              data-country="France"
+              data-city="Paris"
+            >
+              <div>
+                <h3>France</h3>
+                <p>Europe/Paris</p>
+              </div>
+              <div>
+                <h3 class="time" style="text-align: end"></h3>
+                <p class="date"></p>
+              </div>
+            </div>
+
+            <div
+              class="location"
+              data-zone="Asia/Tokyo"
+              data-country="Japan"
+              data-city="Tokyo"
+            >
+              <div>
+                <h3>Japan</h3>
+                <p>Asia/Tokyo</p>
+              </div>
+              <div>
+                <h3 class="time" style="text-align: end"></h3>
+                <p class="date"></p>
+              </div>
+            </div>
+
+            <div
+              class="location"
+              data-zone="Asia/Hong_Kong"
+              data-country="China"
+              data-city="Hong Kong"
+            >
+              <div>
+                <h3>China</h3>
+                <p>Asia/Hong_Kong</p>
+              </div>
+              <div>
+                <h3 class="time" style="text-align: end"></h3>
+                <p class="date"></p>
+              </div>
+            </div>
+
+            <div
+              class="location"
+              data-zone="Asia/Shanghai"
+              data-country="China"
+              data-city="Shanghai"
+            >
+              <div>
+                <h3>China</h3>
+                <p>Asia/Shanghai</p>
+              </div>
+              <div>
+                <h3 class="time" style="text-align: end"></h3>
+                <p class="date"></p>
+              </div>
+            </div>
+
+            <div
+              class="location"
+              data-zone="Europe/Berlin"
+              data-country="Germany"
+              data-city="Berlin"
+            >
+              <div>
+                <h3>Germany</h3>
+                <p>Europe/Berlin</p>
+              </div>
+              <div>
+                <h3 class="time" style="text-align: end"></h3>
+                <p class="date"></p>
+              </div>
+            </div>
+
+            <div
+              class="location"
+              data-zone="Australia/Sydney"
+              data-country="Australia"
+              data-city="Sydney"
+            >
+              <div>
+                <h3>Australia</h3>
+                <p>Australia/Sydney</p>
+              </div>
+              <div>
+                <h3 class="time" style="text-align: end"></h3>
+                <p class="date"></p>
+              </div>
+            </div>
+
+            <div
+              class="location"
+              data-zone="America/Chicago"
+              data-country="United States"
+              data-city="Chicago"
+            >
+              <div>
+                <h3>United States</h3>
+                <p>America/Chicago</p>
+              </div>
+              <div>
+                <h3 class="time" style="text-align: end"></h3>
+                <p class="date"></p>
+              </div>
+            </div>
+
+            <div
+              class="location"
+              data-zone="Asia/Dubai"
+              data-country="UAE"
+              data-city="Dubai"
+            >
+              <div>
+                <h3>UAE</h3>
+                <p>Asia/Dubai</p>
+              </div>
+              <div>
+                <h3 class="time" style="text-align: end"></h3>
+                <p class="date"></p>
+              </div>
+            </div>
+
+            <div
+              class="location"
+              data-zone="Europe/Moscow"
+              data-country="Russia"
+              data-city="Moscow"
+            >
+              <div>
+                <h3>Russia</h3>
+                <p>Europe/Moscow</p>
+              </div>
+              <div>
+                <h3 class="time" style="text-align: end"></h3>
+                <p class="date"></p>
+              </div>
+            </div> -->
+          </div>
+        </div>
+      </div>
+
+      <div id="stopwatch" class="stopwatch" style="display: none">
+        <h3 style="font-size: 1.5rem">Stopwatch</h3>
+        <h1 id="watchDisplay" style="font-size: 3rem; margin-bottom: 15px">
+          00:00:00.00
+        </h1>
+        <button id="startwatch" class="start">
+          <i class="fa-solid fa-play"></i>
+          Start
+        </button>
+        <button id="pausewatch" class="pause" style="display: none">
+          <i class="fa-solid fa-pause"></i>
+          Pause
+        </button>
+        <button id="resetwatch" class="reset">
+          <i class="fa-solid fa-rotate-right"></i>
+          Reset
+        </button>
+        <h4 style="margin-left: -85%">Laps</h4>
+        <div id="lapsDisplay">
+          <h4>No laps recorded yet</h4>
+        </div>
+        <button id="laps">
+          <i class="fa-solid fa-flag"></i>
+          Lap
+        </button>
+      </div>
+
+      <div id="timer" class="timer" style="display: none">
+        <h3 style="font-size: 1.5rem">Timer</h3>
+        <div class="circletimer">
+          <div class="circleProgress">
+            <div class="count">
+              <h1 id="timerDisplay">00:25:00</h1>
+            </div>
+          </div>
+        </div>
+        <div class="time">
+          <h3>Hours</h3>
+          <input type="number" min="0" max="23" value="0" id="hrsinp" />
+        </div>
+        <div class="time">
+          <h3>Minutes</h3>
+          <input type="number" min="0" max="59" value="25" id="mininp" />
+        </div>
+        <div class="time">
+          <h3>Seconds</h3>
+          <input type="number" min="0" max="59" value="0" id="secinp" />
+        </div>
+        <br />
+        <button id="startTimer" class="start">
+          <i class="fa-solid fa-play"></i>
+          Start
+        </button>
+        <button id="pauseTimer" class="pause" style="display: none">
+          <i class="fa-solid fa-pause"></i>
+          Pause
+        </button>
+        <button id="resetTimer" class="reset">
+          <i class="fa-solid fa-rotate-right"></i>
+          Reset
+        </button>
+        <h4 style="margin-left: -85%">Presets</h4>
+        <div class="presetsbtn">
+          <button
+            id="btn1"
+            onclick="document.getElementById('mininp').value = '5'"
+          >
+            5:00
+          </button>
+          <button
+            id="btn2"
+            onclick="document.getElementById('mininp').value = '10'"
+          >
+            10:00
+          </button>
+          <button
+            id="btn3"
+            onclick="document.getElementById('mininp').value = '15'"
+          >
+            15:00
+          </button>
+          <button
+            id="btn4"
+            onclick="document.getElementById('mininp').value = '20'"
+          >
+            20:00
+          </button>
+          <button
+            id="btn5"
+            onclick="document.getElementById('mininp').value = '25'"
+          >
+            25:00
+          </button>
+          <button
+            id="btn6"
+            onclick="document.getElementById('mininp').value = '30'"
+          >
+            30:00
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <h3>&copy; 2025 TimeMaster. All rights reserved.</h3>
+    </footer>
+  </body>
+  <script src="./script.js"></script>
+</html>
