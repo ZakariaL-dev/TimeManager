@@ -143,7 +143,7 @@ fetch(
         uniqueCountries.push(zone);
       }
     }
-    
+
     for (let timezone of uniqueCountries) {
       let opt = document.createElement("option");
       opt.value = timezone.zoneName;
@@ -213,13 +213,23 @@ WorldClockSelect.addEventListener("change", () => {
                 </div>
             </div>`;
       });
-  } else {
+  } else{
     fetch(
       `https://api.timezonedb.com/v2.1/list-time-zone?key=${TimeAPI}&format=json`,
     )
       .then((response) => response.json())
       .then((data) => {
-        let zonesToDisplay = data.zones.slice(160, 180);
+        const uniqueCountries = [];
+        const seenNames = new Set();
+
+        for (let zone of data.zones) {
+          if (!seenNames.has(zone.countryName)) {
+            seenNames.add(zone.countryName);
+            uniqueCountries.push(zone);
+          }
+        }
+
+        let zonesToDisplay = uniqueCountries;
         let htmlContent = "";
         for (let zone of zonesToDisplay) {
           htmlContent += `
