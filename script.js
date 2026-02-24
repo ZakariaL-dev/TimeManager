@@ -55,9 +55,8 @@ function LiveHour() {
   let minute = new Date().getMinutes().toString().padStart(2, 0);
   let second = new Date().getSeconds().toString().padStart(2, 0);
 
-  document.getElementById(
-    "livehour"
-  ).innerHTML = `${hour} : ${minute} : ${second}`;
+  document.getElementById("livehour").innerHTML =
+    `${hour} : ${minute} : ${second}`;
 }
 setInterval(() => {
   LiveHour();
@@ -70,7 +69,7 @@ document.getElementById("livedate").innerHTML = date.toLocaleDateString(
     year: "numeric",
     month: "long",
     day: "numeric",
-  }
+  },
 );
 
 // global clock
@@ -131,12 +130,21 @@ function getDateString(timestamp) {
 
 // fill Select
 fetch(
-  `https://api.timezonedb.com/v2.1/list-time-zone?key=${TimeAPI}&format=json`
+  `https://api.timezonedb.com/v2.1/list-time-zone?key=${TimeAPI}&format=json`,
 )
   .then((response) => response.json())
   .then((data) => {
-    Timezones = data.zones;
-    for (let timezone of Timezones) {
+    const uniqueCountries = [];
+    const seenNames = new Set();
+
+    for (let zone of data.zones) {
+      if (!seenNames.has(zone.countryName)) {
+        seenNames.add(zone.countryName);
+        uniqueCountries.push(zone);
+      }
+    }
+    
+    for (let timezone of uniqueCountries) {
       let opt = document.createElement("option");
       opt.value = timezone.zoneName;
       opt.textContent = timezone.countryName;
@@ -144,12 +152,49 @@ fetch(
     }
   });
 
+if (WorldClockSelect.value === "Select Your Zone") {
+  fetch(
+    `https://api.timezonedb.com/v2.1/list-time-zone?key=${TimeAPI}&format=json`,
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      const uniqueCountries = [];
+      const seenNames = new Set();
+
+      for (let zone of data.zones) {
+        if (!seenNames.has(zone.countryName)) {
+          seenNames.add(zone.countryName);
+          uniqueCountries.push(zone);
+        }
+      }
+
+      let zonesToDisplay = uniqueCountries;
+      let htmlContent = "";
+      for (let zone of zonesToDisplay) {
+        htmlContent += `
+            <div class="location">
+                <div>
+                    <h3>${zone.countryName}</h3>
+                    <p>${zone.zoneName}</p>
+                </div>
+                <div>
+                    <h3 style="text-align: end;">${getTimeString(
+                      zone.timestamp,
+                    )}</h3>
+                    <p>${getDateString(zone.timestamp)}</p>
+                </div>
+            </div>`;
+      }
+      WorldClockDisplay.innerHTML = htmlContent;
+    })
+    .catch((err) => console.error("Error fetching timezones:", err));
+}
 //   Search Select
 WorldClockSelect.addEventListener("change", () => {
   if (WorldClockSelect.value !== "Select Your Zone") {
     WorldClockDisplay.innerHTML = "";
     fetch(
-      `https://api.timezonedb.com/v2.1/list-time-zone?key=${TimeAPI}&format=json&by=zone&zone=${WorldClockSelect.value}`
+      `https://api.timezonedb.com/v2.1/list-time-zone?key=${TimeAPI}&format=json&by=zone&zone=${WorldClockSelect.value}`,
     )
       .then((response) => response.json())
       .then((data) => {
@@ -162,14 +207,38 @@ WorldClockSelect.addEventListener("change", () => {
                 </div>
                 <div>
                     <h3 style="text-align: end;">${getTimeString(
-                      SelectedPlace.timestamp
+                      SelectedPlace.timestamp,
                     )}</h3>
                     <p>${getDateString(SelectedPlace.timestamp)}</p>
                 </div>
             </div>`;
       });
-  }else{
-    WorldClockDisplay.innerHTML = `<h2 style="margin: 0 auto;">Please Selsect Your Zone</h2>`;
+  } else {
+    fetch(
+      `https://api.timezonedb.com/v2.1/list-time-zone?key=${TimeAPI}&format=json`,
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        let zonesToDisplay = data.zones.slice(160, 180);
+        let htmlContent = "";
+        for (let zone of zonesToDisplay) {
+          htmlContent += `
+            <div class="location">
+                <div>
+                    <h3>${zone.countryName}</h3>
+                    <p>${zone.zoneName}</p>
+                </div>
+                <div>
+                    <h3 style="text-align: end;">${getTimeString(
+                      zone.timestamp,
+                    )}</h3>
+                    <p>${getDateString(zone.timestamp)}</p>
+                </div>
+            </div>`;
+        }
+        WorldClockDisplay.innerHTML = htmlContent;
+      })
+      .catch((err) => console.error("Error fetching timezones:", err));
   }
 });
 
@@ -209,7 +278,7 @@ startwatchbtn.addEventListener("click", function () {
     }
 
     watchDisplay.innerHTML = `${zeroPad(hrs)}:${zeroPad(mins)}:${zeroPad(
-      secs
+      secs,
     )}.${zeroPad(ms)}`;
   }, 10);
 });
@@ -246,8 +315,8 @@ lapbtn.addEventListener("click", function () {
         <div class="laps" style="margin-top: 5px;">
             <div class="lapnum"> Lap ${count}</div>
             <div class="laptime">${zeroPad(hrs)}:${zeroPad(mins)}:${zeroPad(
-    secs
-  )}.${zeroPad(ms)}</div>
+              secs,
+            )}.${zeroPad(ms)}</div>
         </div>
         <hr style="margin-bottom: 10px;">
     `;
@@ -269,7 +338,7 @@ let interval;
 // start
 startTimerbtn.addEventListener("click", function () {
   timerDisplay.innerHTML = `${zeroPad(hrsinp.value)}:${zeroPad(
-    mininp.value
+    mininp.value,
   )}:${zeroPad(secinp.value)}`;
 
   startTimerbtn.style.display = "none";
@@ -293,13 +362,13 @@ startTimerbtn.addEventListener("click", function () {
     if (timeleft == 0) {
       clearInterval(interval);
       timerDisplay.innerHTML = `${zeroPad(hrsinp.value)}:${zeroPad(
-        mininp.value
+        mininp.value,
       )}:${zeroPad(secinp.value)}`;
       alert("Time's up !!!");
     }
 
     timerDisplay.innerHTML = `${zeroPad(hours)}:${zeroPad(minutes)}:${zeroPad(
-      seconds
+      seconds,
     )}`;
   }, 1000);
 });
